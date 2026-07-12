@@ -1,26 +1,36 @@
-// swift-tools-version: 6.3
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 6.0
 
 import PackageDescription
 
 let package = Package(
-    name: "unleash-openfeature-swift-provider",
+    name: "UnleashOpenFeatureSwiftProvider",
+    platforms: [
+        .iOS(.v15),
+        .macOS(.v12),
+        .tvOS(.v15),
+        .watchOS(.v8),
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "unleash-openfeature-swift-provider",
-            targets: ["unleash-openfeature-swift-provider"]
+            name: "UnleashOpenFeatureSwiftProvider",
+            targets: ["UnleashOpenFeatureSwiftProvider"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/open-feature/swift-sdk", from: "0.5.0"),
+        .package(url: "https://github.com/Unleash/unleash-ios-sdk", from: "2.4.0"),
+    ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "unleash-openfeature-swift-provider"
+            name: "UnleashOpenFeatureSwiftProvider",
+            dependencies: [
+                .product(name: "OpenFeature", package: "swift-sdk"),
+                .product(name: "UnleashProxyClientSwift", package: "unleash-ios-sdk"),
+            ]
         ),
         .testTarget(
-            name: "unleash-openfeature-swift-providerTests",
-            dependencies: ["unleash-openfeature-swift-provider"]
+            name: "UnleashOpenFeatureSwiftProviderTests",
+            dependencies: ["UnleashOpenFeatureSwiftProvider"]
         ),
     ],
     swiftLanguageModes: [.v6]

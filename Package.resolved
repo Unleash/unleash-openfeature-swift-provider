@@ -1,0 +1,33 @@
+{
+  "originHash" : "b7aa2d7f5c5c642eb5173cca5d3abf9662c3566fbb7d9e6d9f0d2f364ab912d3",
+  "pins" : [
+    {
+      "identity" : "swift-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/open-feature/swift-sdk",
+      "state" : {
+        "revision" : "d71686219a65ab78f77923ceb0e2ea549e1e50ef",
+        "version" : "0.5.0"
+      }
+    },
+    {
+      "identity" : "swifteventbus",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cesarferreira/SwiftEventBus.git",
+      "state" : {
+        "revision" : "a30ff35e616f507d8a8d122dac32a2150371a87e",
+        "version" : "5.1.0"
+      }
+    },
+    {
+      "identity" : "unleash-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Unleash/unleash-ios-sdk",
+      "state" : {
+        "revision" : "050a68f41bcbc831d809f3022c97038f4b16c032",
+        "version" : "2.4.0"
+      }
+    }
+  ],
+  "version" : 3
+}
