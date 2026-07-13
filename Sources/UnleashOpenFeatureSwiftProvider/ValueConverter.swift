@@ -31,8 +31,7 @@ enum ValueConverter {
             }
             // Integral numbers become .integer, everything else .double.
             if number.doubleValue == number.doubleValue.rounded(),
-               let int = Int64(exactly: number)
-            {
+               let int = Int64(exactly: number) {
                 return .integer(int)
             }
             return .double(number.doubleValue)
