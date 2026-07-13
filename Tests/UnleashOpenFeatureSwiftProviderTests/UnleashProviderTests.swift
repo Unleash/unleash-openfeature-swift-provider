@@ -1,9 +1,8 @@
 import Foundation
 import OpenFeature
+@testable import UnleashOpenFeatureSwiftProvider
 import UnleashProxyClientSwift
 import XCTest
-
-@testable import UnleashOpenFeatureSwiftProvider
 
 final class EvaluationTests: XCTestCase {
     private func initializedProvider() async throws -> UnleashProvider {
@@ -86,7 +85,8 @@ final class EvaluationTests: XCTestCase {
         let provider = try await initializedProvider()
 
         let result = try provider.getStringEvaluation(
-            key: "disabled-variant-flag", defaultValue: "fallback", context: nil)
+            key: "disabled-variant-flag", defaultValue: "fallback", context: nil
+        )
         XCTAssertEqual(result.value, "fallback")
         XCTAssertNil(result.variant)
     }

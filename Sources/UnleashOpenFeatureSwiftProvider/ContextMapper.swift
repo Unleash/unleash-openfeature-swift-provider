@@ -32,18 +32,18 @@ enum ContextMapper {
     /// no representation and are dropped.
     private static func stringify(_ value: Value) -> String? {
         switch value {
-        case .string(let string):
-            return string
-        case .boolean(let bool):
-            return String(bool)
-        case .integer(let int):
-            return String(int)
-        case .double(let double):
-            return String(double)
-        case .date(let date):
-            return ISO8601DateFormatter().string(from: date)
+        case let .string(string):
+            string
+        case let .boolean(bool):
+            String(bool)
+        case let .integer(int):
+            String(int)
+        case let .double(double):
+            String(double)
+        case let .date(date):
+            ISO8601DateFormatter().string(from: date)
         case .list, .structure, .null:
-            return nil
+            nil
         }
     }
 }

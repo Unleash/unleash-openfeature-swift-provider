@@ -31,7 +31,8 @@ enum ValueConverter {
             }
             // Integral numbers become .integer, everything else .double.
             if number.doubleValue == number.doubleValue.rounded(),
-                let int = Int64(exactly: number) {
+               let int = Int64(exactly: number)
+            {
                 return .integer(int)
             }
             return .double(number.doubleValue)
@@ -42,8 +43,8 @@ enum ValueConverter {
     }
 }
 
-extension NSNumber {
-    fileprivate var isBool: Bool {
+private extension NSNumber {
+    var isBool: Bool {
         CFGetTypeID(self) == CFBooleanGetTypeID()
     }
 }

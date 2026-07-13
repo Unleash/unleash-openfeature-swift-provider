@@ -189,8 +189,8 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
         guard payload.type == payloadType else {
             throw OpenFeatureError.typeMismatchError
         }
-        return ProviderEvaluation(
-            value: try transform(payload),
+        return try ProviderEvaluation(
+            value: transform(payload),
             variant: variant.name,
             reason: Self.reason
         )

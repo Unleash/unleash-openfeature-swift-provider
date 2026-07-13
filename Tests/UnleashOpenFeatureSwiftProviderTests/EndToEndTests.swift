@@ -1,9 +1,8 @@
 import Foundation
 import OpenFeature
+@testable import UnleashOpenFeatureSwiftProvider
 import UnleashProxyClientSwift
 import XCTest
-
-@testable import UnleashOpenFeatureSwiftProvider
 
 /// Exercises the provider through the real OpenFeature SDK plumbing
 /// (`OpenFeatureAPI` + `Client`) rather than direct provider calls.

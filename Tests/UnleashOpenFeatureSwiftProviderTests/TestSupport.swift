@@ -1,8 +1,7 @@
 import Foundation
 import OpenFeature
-import UnleashProxyClientSwift
-
 @testable import UnleashOpenFeatureSwiftProvider
+import UnleashProxyClientSwift
 
 /// A `PollerSession` stub that answers every flag request with a canned
 /// status code (304 by default, so bootstrapped toggles stay untouched)
@@ -66,32 +65,32 @@ func variantToggle(_ name: String, payloadType: String, payloadValue: String) ->
     )
 }
 
-// Computed because Toggle predates Sendable; a stored global of a
-// non-Sendable type is rejected under strict concurrency.
+/// Computed because Toggle predates Sendable; a stored global of a
+/// non-Sendable type is rejected under strict concurrency.
 var fixtureToggles: [Toggle] {
     [
-    Toggle(name: "bool-flag", enabled: true),
-    Toggle(name: "bool-flag-off", enabled: false),
-    variantToggle("string-flag", payloadType: "string", payloadValue: "hello"),
-    variantToggle("int-flag", payloadType: "number", payloadValue: "42"),
-    variantToggle("double-flag", payloadType: "number", payloadValue: "3.25"),
-    variantToggle(
-        "json-flag",
-        payloadType: "json",
-        payloadValue: #"{"title": "welcome", "count": 2, "ratio": 0.5, "on": true, "tags": ["a", "b"], "missing": null}"#
-    ),
-    variantToggle("csv-flag", payloadType: "csv", payloadValue: "a,b,c"),
-    variantToggle("bad-int-flag", payloadType: "number", payloadValue: "not-a-number"),
-    variantToggle("bad-json-flag", payloadType: "json", payloadValue: "{not json"),
-    Toggle(
-        name: "disabled-variant-flag",
-        enabled: true,
-        variant: Variant(name: "disabled", enabled: false, featureEnabled: true)
-    ),
-    Toggle(
-        name: "no-payload-flag",
-        enabled: true,
-        variant: Variant(name: "plain", enabled: true, featureEnabled: true)
-    ),
+        Toggle(name: "bool-flag", enabled: true),
+        Toggle(name: "bool-flag-off", enabled: false),
+        variantToggle("string-flag", payloadType: "string", payloadValue: "hello"),
+        variantToggle("int-flag", payloadType: "number", payloadValue: "42"),
+        variantToggle("double-flag", payloadType: "number", payloadValue: "3.25"),
+        variantToggle(
+            "json-flag",
+            payloadType: "json",
+            payloadValue: #"{"title": "welcome", "count": 2, "ratio": 0.5, "on": true, "tags": ["a", "b"], "missing": null}"#
+        ),
+        variantToggle("csv-flag", payloadType: "csv", payloadValue: "a,b,c"),
+        variantToggle("bad-int-flag", payloadType: "number", payloadValue: "not-a-number"),
+        variantToggle("bad-json-flag", payloadType: "json", payloadValue: "{not json"),
+        Toggle(
+            name: "disabled-variant-flag",
+            enabled: true,
+            variant: Variant(name: "disabled", enabled: false, featureEnabled: true)
+        ),
+        Toggle(
+            name: "no-payload-flag",
+            enabled: true,
+            variant: Variant(name: "plain", enabled: true, featureEnabled: true)
+        ),
     ]
 }
