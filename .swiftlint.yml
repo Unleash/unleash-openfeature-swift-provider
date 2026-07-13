@@ -1,0 +1,19 @@
+excluded:
+  - .build
+
+opt_in_rules:
+  - empty_count
+  - force_unwrapping
+  - sorted_imports
+
+line_length:
+  warning: 120
+  error: 140
+
+identifier_name:
+  min_length:
+    warning: 2
+
+type_name:
+  min_length:
+    warning: 2

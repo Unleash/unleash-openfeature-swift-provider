@@ -1,0 +1,6 @@
+--swiftversion 6.0
+--indent 4
+--semicolons never
+--stripunusedargs closure-only
+--disable redundantSelf
+--exclude .build

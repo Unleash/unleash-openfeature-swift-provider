@@ -19,6 +19,15 @@ jobs:
       - name: Show Swift version
         run: swift --version
 
+      - name: Install lint and format tools
+        run: brew install swiftlint swiftformat
+
+      - name: Check format
+        run: swiftformat --lint .
+
+      - name: Lint
+        run: swiftlint lint --strict
+
       - name: Resolve dependencies
         run: swift package resolve
 
