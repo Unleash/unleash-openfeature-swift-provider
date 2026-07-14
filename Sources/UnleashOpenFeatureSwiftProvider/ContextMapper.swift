@@ -1,9 +1,9 @@
 import Foundation
 import OpenFeature
 
-// This deviates in pattern from the other Unleash OpenFeature provider implementations
-// in that it deals in raw String maps. This can only change when the SDK itself
-// gets a healthier public API for context values
+/// This deviates in pattern from the other Unleash OpenFeature provider implementations
+/// in that it deals in raw String maps. This can only change when the SDK itself
+/// gets a healthier public API for context values
 enum ContextMapper {
     static func map(_ context: EvaluationContext) -> [String: String] {
         var result: [String: String] = [:]
