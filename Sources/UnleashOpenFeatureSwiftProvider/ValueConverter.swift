@@ -31,7 +31,6 @@ enum ValueConverter {
             if number.isBool {
                 return .boolean(number.boolValue)
             }
-            // Integral numbers become .integer, everything else .double.
             if number.doubleValue == number.doubleValue.rounded(),
                let int = Int64(exactly: number)
             {
@@ -39,7 +38,6 @@ enum ValueConverter {
             }
             return .double(number.doubleValue)
         default:
-            // JSONSerialization represents null as NSNull.
             return .null
         }
     }

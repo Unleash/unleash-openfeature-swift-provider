@@ -1,12 +1,9 @@
 import Foundation
 import OpenFeature
 
-/// Translates an OpenFeature `EvaluationContext` into the flat
-/// `[String: String]` map the Unleash Swift SDK expects.
-///
-/// The Unleash SDK itself lifts the special keys (`userId`, `sessionId`,
-/// `remoteAddress`) out of the map and treats everything else as custom
-/// context properties, so a single flat map is all we need to produce.
+// This deviates in pattern from the other Unleash OpenFeature provider implementations
+// in that it deals in raw String maps. This can only change when the SDK itself
+// gets a healthier public API for context values
 enum ContextMapper {
     static func map(_ context: EvaluationContext) -> [String: String] {
         var result: [String: String] = [:]
@@ -17,9 +14,6 @@ enum ContextMapper {
             }
         }
 
-        // The OpenFeature targeting key identifies the subject of the
-        // evaluation and maps to Unleash's userId. It wins over any
-        // explicit "userId" field in the context.
         let targetingKey = context.getTargetingKey()
         if !targetingKey.isEmpty {
             result["userId"] = targetingKey
@@ -28,8 +22,6 @@ enum ContextMapper {
         return result
     }
 
-    /// Unleash context values are flat strings; lists and structures have
-    /// no representation and are dropped.
     private static func stringify(_ value: Value) -> String? {
         switch value {
         case let .string(string):

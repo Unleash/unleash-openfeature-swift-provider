@@ -17,15 +17,12 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
         let name: String? = "Unleash"
     }
 
-    /// Unleash variant payload types.
     private enum PayloadType {
         static let string = "string"
         static let number = "number"
         static let json = "json"
     }
 
-    /// Per the Unleash OpenFeature spec, resolution reasons are not derivable
-    /// from Unleash SDK responses, so every happy-path result reports UNKNOWN.
     private static let reason = "UNKNOWN"
 
     public let hooks: [any Hook] = []
@@ -36,10 +33,11 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
 
     /// Creates a provider owning an Unleash client built from `config`.
     ///
-    /// - Throws: `OpenFeatureError.generalError` if `config.unleashUrl` is not
-    ///   a valid URL (the underlying Unleash client would otherwise crash).
+    /// - Throws: `OpenFeatureError.generalError` if `config.unleashUrl` is not a valid URL
     public init(config: UnleashProviderConfig) throws {
         guard let url = URL(string: config.unleashUrl), url.scheme != nil else {
+            // Unleash SDK treats a broken URL as a fatal, we have an appropriate error mechanism
+            // in OpenFeature, so let's use that
             throw OpenFeatureError.generalError(message: "Invalid Unleash URL: \(config.unleashUrl)")
         }
         self.bootstrap = config.bootstrap
@@ -57,11 +55,7 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
         )
     }
 
-    // MARK: - Lifecycle
-
-    /// Lifecycle events (ready, error, reconciling, context changed) are
-    /// emitted by the OpenFeature SDK itself around `initialize` and
-    /// `onContextSet`; this provider defines no events of its own.
+    /// This provider defines no events of its own.
     public func observe() -> AnyPublisher<ProviderEvent?, Never> {
         Empty().eraseToAnyPublisher()
     }
@@ -88,7 +82,7 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
 
     /// Stops flag polling and metrics reporting, reverting the provider to an
     /// uninitialized state. Idempotent. The OpenFeature Swift SDK does not
-    /// call this itself — invoke it when tearing the provider down.
+    /// call this itself. Note that this Provider does not support re-initialization after shutdown.
     public func onClose() {
         client.stop()
     }
@@ -110,8 +104,6 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
             return .failure(OpenFeatureError.generalError(message: "Could not fetch flags from Unleash: \(error)"))
         }
     }
-
-    // MARK: - Evaluation
 
     public func getBooleanEvaluation(
         key: String,
