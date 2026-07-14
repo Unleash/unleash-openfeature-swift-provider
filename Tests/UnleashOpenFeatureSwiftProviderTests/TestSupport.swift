@@ -77,7 +77,9 @@ var fixtureToggles: [Toggle] {
         variantToggle(
             "json-flag",
             payloadType: "json",
-            payloadValue: #"{"title": "welcome", "count": 2, "ratio": 0.5, "on": true, "tags": ["a", "b"], "missing": null}"#
+            payloadValue: #"""
+            {"title": "welcome", "count": 2, "ratio": 0.5, "on": true, "tags": ["a", "b"], "missing": null}
+            """#
         ),
         variantToggle("csv-flag", payloadType: "csv", payloadValue: "a,b,c"),
         variantToggle("bad-int-flag", payloadType: "number", payloadValue: "not-a-number"),

@@ -12,7 +12,9 @@ enum ValueConverter {
         do {
             object = try JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed])
         } catch {
-            throw OpenFeatureError.parseError(message: "Variant payload is not valid JSON: \(error.localizedDescription)")
+            throw OpenFeatureError.parseError(
+                message: "Variant payload is not valid JSON: \(error.localizedDescription)"
+            )
         }
         return convert(object)
     }
