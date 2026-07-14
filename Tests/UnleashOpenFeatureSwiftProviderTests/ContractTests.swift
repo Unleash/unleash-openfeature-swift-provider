@@ -67,7 +67,7 @@ final class ContractTests: XCTestCase {
         case "object":
             let details = client.getObjectDetails(
                 key: flagKey,
-                defaultValue: scenario.any("default").openFeatureValue
+                defaultValue: openFeatureValue(from: scenario.any("default"))
             )
             return AnyFlagEvaluationDetails(value: details.value.jsonCompatible, variant: details.variant)
         default:
@@ -207,30 +207,28 @@ private extension Value {
     }
 }
 
-private extension Any {
-    var openFeatureValue: Value {
-        switch self {
-        case let value as Bool:
-            .boolean(value)
-        case let value as String:
-            .string(value)
-        case let value as Int:
-            .integer(Int64(value))
-        case let value as Int64:
-            .integer(value)
-        case let value as NSNumber:
-            if value.isBool {
-                .boolean(value.boolValue)
-            } else {
-                .double(value.doubleValue)
-            }
-        case let value as [Any]:
-            .list(value.map(\.openFeatureValue))
-        case let value as [String: Any]:
-            .structure(value.mapValues(\.openFeatureValue))
-        default:
-            .null
+private func openFeatureValue(from value: Any) -> Value {
+    switch value {
+    case let value as Bool:
+        .boolean(value)
+    case let value as String:
+        .string(value)
+    case let value as Int:
+        .integer(Int64(value))
+    case let value as Int64:
+        .integer(value)
+    case let value as NSNumber:
+        if value.isBool {
+            .boolean(value.boolValue)
+        } else {
+            .double(value.doubleValue)
         }
+    case let value as [Any]:
+        .list(value.map(openFeatureValue))
+    case let value as [String: Any]:
+        .structure(value.mapValues(openFeatureValue))
+    default:
+        .null
     }
 }
 
