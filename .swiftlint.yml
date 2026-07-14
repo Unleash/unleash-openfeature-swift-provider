@@ -1,10 +1,17 @@
 excluded:
   - .build
 
+disabled_rules:
+  - colon
+  - comma
+  - opening_brace
+  - trailing_comma
+  - trailing_whitespace
+  - vertical_whitespace
+
 opt_in_rules:
   - empty_count
   - force_unwrapping
-  - sorted_imports
 
 line_length:
   warning: 120

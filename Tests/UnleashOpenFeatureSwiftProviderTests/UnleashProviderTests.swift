@@ -198,7 +198,7 @@ final class LifecycleTests: XCTestCase {
             targetingKey: "user-456",
             structure: ImmutableStructure(attributes: [
                 "sessionId": .string("session-9"),
-                "custom": .string("value")
+                "custom": .string("value"),
             ])
         )
         try await provider.onContextSet(oldContext: nil, newContext: context)
@@ -253,7 +253,7 @@ final class ContextMapperTests: XCTestCase {
             "int": .integer(7),
             "double": .double(1.5),
             "bool": .boolean(true),
-            "date": .date(date)
+            "date": .date(date),
         ])
         let map = ContextMapper.map(context)
         XCTAssertEqual(map["string"], "text")
@@ -267,7 +267,7 @@ final class ContextMapperTests: XCTestCase {
         let context = ImmutableContext(attributes: [
             "list": .list([.string("a")]),
             "structure": .structure(["k": .string("v")]),
-            "null": .null
+            "null": .null,
         ])
         XCTAssertTrue(ContextMapper.map(context).isEmpty)
     }

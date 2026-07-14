@@ -26,7 +26,7 @@ jobs:
         run: swiftformat --lint .
 
       - name: Lint
-        run: swiftlint lint --strict
+        run: swiftlint lint --strict --no-cache
 
       - name: Resolve dependencies
         run: swift package resolve

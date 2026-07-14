@@ -91,6 +91,6 @@ var fixtureToggles: [Toggle] {
             name: "no-payload-flag",
             enabled: true,
             variant: Variant(name: "plain", enabled: true, featureEnabled: true)
-        )
+        ),
     ]
 }
