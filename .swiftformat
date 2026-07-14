@@ -4,3 +4,4 @@
 --stripunusedargs closure-only
 --disable redundantSelf
 --exclude .build
+--exclude verifier

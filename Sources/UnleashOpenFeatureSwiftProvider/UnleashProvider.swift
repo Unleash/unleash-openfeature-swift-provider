@@ -19,6 +19,7 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
 
     private enum PayloadType {
         static let string = "string"
+        static let csv = "csv"
         static let number = "number"
         static let json = "json"
     }
@@ -120,7 +121,11 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
         defaultValue: String,
         context: EvaluationContext?
     ) throws -> ProviderEvaluation<String> {
-        try variantEvaluation(key: key, defaultValue: defaultValue, payloadType: PayloadType.string) { payload in
+        try variantEvaluation(
+            key: key,
+            defaultValue: defaultValue,
+            payloadTypes: [PayloadType.string, PayloadType.csv]
+        ) { payload in
             payload.value
         }
     }
@@ -130,7 +135,7 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
         defaultValue: Int64,
         context: EvaluationContext?
     ) throws -> ProviderEvaluation<Int64> {
-        try variantEvaluation(key: key, defaultValue: defaultValue, payloadType: PayloadType.number) { payload in
+        try variantEvaluation(key: key, defaultValue: defaultValue, payloadTypes: [PayloadType.number]) { payload in
             guard let value = Int64(payload.value) else {
                 throw OpenFeatureError.parseError(
                     message: "Variant payload for flag \(key) is not an integer: \(payload.value)"
@@ -145,7 +150,7 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
         defaultValue: Double,
         context: EvaluationContext?
     ) throws -> ProviderEvaluation<Double> {
-        try variantEvaluation(key: key, defaultValue: defaultValue, payloadType: PayloadType.number) { payload in
+        try variantEvaluation(key: key, defaultValue: defaultValue, payloadTypes: [PayloadType.number]) { payload in
             guard let value = Double(payload.value) else {
                 throw OpenFeatureError.parseError(
                     message: "Variant payload for flag \(key) is not a number: \(payload.value)"
@@ -160,7 +165,7 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
         defaultValue: Value,
         context: EvaluationContext?
     ) throws -> ProviderEvaluation<Value> {
-        try variantEvaluation(key: key, defaultValue: defaultValue, payloadType: PayloadType.json) { payload in
+        try variantEvaluation(key: key, defaultValue: defaultValue, payloadTypes: [PayloadType.json]) { payload in
             try ValueConverter.value(fromJson: payload.value)
         }
     }
@@ -171,14 +176,14 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
     private func variantEvaluation<T>(
         key: String,
         defaultValue: T,
-        payloadType: String,
+        payloadTypes: [String],
         transform: (Payload) throws -> T
     ) throws -> ProviderEvaluation<T> {
         let variant = client.getVariant(name: key)
         guard variant.enabled, let payload = variant.payload else {
             return ProviderEvaluation(value: defaultValue, reason: Self.reason)
         }
-        guard payload.type == payloadType else {
+        guard payloadTypes.contains(payload.type) else {
             throw OpenFeatureError.typeMismatchError
         }
         return try ProviderEvaluation(

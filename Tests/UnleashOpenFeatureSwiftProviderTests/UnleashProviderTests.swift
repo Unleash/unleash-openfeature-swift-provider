@@ -39,6 +39,10 @@ final class EvaluationTests: XCTestCase {
         XCTAssertEqual(result.value, "hello")
         XCTAssertEqual(result.variant, "string-flag-variant")
         XCTAssertEqual(result.reason, "UNKNOWN")
+
+        let csv = try provider.getStringEvaluation(key: "csv-flag", defaultValue: "fallback", context: nil)
+        XCTAssertEqual(csv.value, "a,b,c")
+        XCTAssertEqual(csv.variant, "csv-flag-variant")
     }
 
     func testIntegerEvaluation() async throws {
