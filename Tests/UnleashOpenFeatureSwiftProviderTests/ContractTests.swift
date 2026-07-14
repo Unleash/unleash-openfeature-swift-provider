@@ -219,7 +219,11 @@ private extension Any {
         case let value as Int64:
             .integer(value)
         case let value as NSNumber:
-            value.isBool ? .boolean(value.boolValue) : .double(value.doubleValue)
+            if value.isBool {
+                .boolean(value.boolValue)
+            } else {
+                .double(value.doubleValue)
+            }
         case let value as [Any]:
             .list(value.map(\.openFeatureValue))
         case let value as [String: Any]:
