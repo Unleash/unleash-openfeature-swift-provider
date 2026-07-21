@@ -173,11 +173,11 @@ final class LifecycleTests: XCTestCase {
         try await provider.initialize(initialContext: nil)
 
         XCTAssertEqual(
-            session.requests.first?.value(forHTTPHeaderField: "sdkFlavor"),
+            session.requests.first?.value(forHTTPHeaderField: "unleash-sdk-flavor"),
             ProviderInfo.sdkFlavor
         )
         XCTAssertEqual(
-            session.requests.first?.value(forHTTPHeaderField: "sdkFlavorVersion"),
+            session.requests.first?.value(forHTTPHeaderField: "unleash-sdk-flavor-version"),
             ProviderInfo.sdkFlavorVersion
         )
     }
