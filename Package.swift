@@ -18,6 +18,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/open-feature/swift-sdk", from: "0.5.0"),
+        // TO DO: bump to latest version with sdk flavor when it's merged!
         .package(url: "https://github.com/Unleash/unleash-ios-sdk", from: "2.4.0"),
     ],
     targets: [
