@@ -166,6 +166,22 @@ final class LifecycleTests: XCTestCase {
         XCTAssertEqual(session.requests.count, 1)
     }
 
+    func testStampsSdkFlavorHeaderOnRequests() async throws {
+        let session = StubPollerSession()
+        let provider = try makeProvider(toggles: [], session: session)
+
+        try await provider.initialize(initialContext: nil)
+
+        XCTAssertEqual(
+            session.requests.first?.value(forHTTPHeaderField: "sdkFlavor"),
+            ProviderInfo.sdkFlavor
+        )
+        XCTAssertEqual(
+            session.requests.first?.value(forHTTPHeaderField: "sdkFlavorVersion"),
+            ProviderInfo.sdkFlavorVersion
+        )
+    }
+
     func testInitializeThrowsWhenFetchFails() async throws {
         let session = StubPollerSession(statusCode: 401)
         let provider = try makeProvider(toggles: [], session: session)
