@@ -3,6 +3,6 @@
 /// OpenFeature provider can be tracked.
 enum ProviderInfo {
     static let name = "unleash-openfeature-swift-provider"
-    static var sdkFlavor: String = { "\(name):\(version)" }
+    static let sdkFlavor: String = name
     static let sdkFlavorVersion = "0.1.0"
 }
