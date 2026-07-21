@@ -18,8 +18,9 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/open-feature/swift-sdk", from: "0.5.0"),
-        // TO DO: bump to latest version with sdk flavor when it's merged!
-        .package(url: "https://github.com/Unleash/unleash-ios-sdk", from: "2.4.0"),
+        // TEMPORARY: the sdkFlavor client options aren't in a released unleash-ios-sdk yet.
+        // Track the SDK feature branch so it resolves in CI too; bump to the published version once merged.
+        .package(url: "https://github.com/Unleash/unleash-ios-sdk", branch: "feat/sdk-flavor-metadata"),
     ],
     targets: [
         .target(
