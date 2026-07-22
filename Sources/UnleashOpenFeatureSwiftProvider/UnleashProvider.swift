@@ -52,7 +52,9 @@ public final class UnleashProvider: FeatureProvider, @unchecked Sendable {
             environment: config.environment,
             pollerSession: config.pollerSession,
             customHeaders: config.customHeaders,
-            bootstrap: config.bootstrap
+            bootstrap: config.bootstrap,
+            sdkFlavor: ProviderInfo.sdkFlavor,
+            sdkFlavorVersion: ProviderInfo.sdkFlavorVersion
         )
     }
 
