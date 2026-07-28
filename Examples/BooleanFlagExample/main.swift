@@ -13,11 +13,12 @@ func argument(_ name: String) -> String? {
 }
 
 guard let url = argument("--url"),
-    let apiKey = argument("--api-key"),
-    let flagKey = argument("--flag-key")
+      let apiKey = argument("--api-key"),
+      let flagKey = argument("--flag-key")
 else {
     FileHandle.standardError.write(Data(
-        "Usage: boolean-flag-example --url FRONTEND_URL --api-key FRONTEND_TOKEN --flag-key KEY [--targeting-key KEY]\n".utf8
+        "Usage: boolean-flag-example --url FRONTEND_URL --api-key FRONTEND_TOKEN --flag-key KEY [--targeting-key KEY]\n"
+            .utf8
     ))
     exit(1)
 }
