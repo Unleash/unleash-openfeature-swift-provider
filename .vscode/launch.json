@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unleash-openfeature-swift-provider}",
+            "name": "Debug boolean-flag-example",
+            "target": "boolean-flag-example",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug boolean-flag-example"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unleash-openfeature-swift-provider}",
+            "name": "Release boolean-flag-example",
+            "target": "boolean-flag-example",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release boolean-flag-example"
+        }
+    ]
+}

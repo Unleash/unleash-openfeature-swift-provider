@@ -166,19 +166,35 @@ final class LifecycleTests: XCTestCase {
         XCTAssertEqual(session.requests.count, 1)
     }
 
+    func testProviderFlavourIdentity() {
+        XCTAssertEqual(ProviderInfo.sdkFlavor, "unleash-openfeature-swift-provider")
+        XCTAssertEqual(ProviderInfo.sdkFlavorVersion, ProviderInfo.version)
+        XCTAssertNotNil(
+            ProviderInfo.version.range(of: #"^\d+\.\d+\.\d+"#, options: .regularExpression),
+            "provider version should be semver, got \(ProviderInfo.version)"
+        )
+    }
+
     func testStampsSdkFlavorHeaderOnRequests() async throws {
         let session = StubPollerSession()
         let provider = try makeProvider(toggles: [], session: session)
 
         try await provider.initialize(initialContext: nil)
 
+        let request = try XCTUnwrap(session.requests.first)
+
         XCTAssertEqual(
-            session.requests.first?.value(forHTTPHeaderField: "unleash-sdk-flavor"),
-            ProviderInfo.sdkFlavor
+            request.value(forHTTPHeaderField: "unleash-sdk-flavor"),
+            "unleash-openfeature-swift-provider"
         )
-        XCTAssertEqual(
-            session.requests.first?.value(forHTTPHeaderField: "unleash-sdk-flavor-version"),
-            ProviderInfo.sdkFlavorVersion
+
+        let versionHeader = try XCTUnwrap(
+            request.value(forHTTPHeaderField: "unleash-sdk-flavor-version")
+        )
+        XCTAssertEqual(versionHeader, ProviderInfo.version)
+        XCTAssertNotNil(
+            versionHeader.range(of: #"^\d+\.\d+\.\d+"#, options: .regularExpression),
+            "flavour version header should be semver, got \(versionHeader)"
         )
     }
 

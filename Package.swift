@@ -15,6 +15,10 @@ let package = Package(
             name: "UnleashOpenFeatureSwiftProvider",
             targets: ["UnleashOpenFeatureSwiftProvider"]
         ),
+        .executable(
+            name: "boolean-flag-example",
+            targets: ["BooleanFlagExample"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/open-feature/swift-sdk", from: "0.5.0"),
@@ -27,6 +31,14 @@ let package = Package(
                 .product(name: "OpenFeature", package: "swift-sdk"),
                 .product(name: "UnleashProxyClientSwift", package: "unleash-ios-sdk"),
             ]
+        ),
+        .executableTarget(
+            name: "BooleanFlagExample",
+            dependencies: [
+                "UnleashOpenFeatureSwiftProvider",
+                .product(name: "OpenFeature", package: "swift-sdk"),
+            ],
+            path: "Examples/BooleanFlagExample"
         ),
         .testTarget(
             name: "UnleashOpenFeatureSwiftProviderTests",
