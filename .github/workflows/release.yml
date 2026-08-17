@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Read provider version
+        run: |
+          set -euo pipefail
+
+          VERSION_FILE="Sources/UnleashOpenFeatureSwiftProvider/Version.swift"
+          VERSION=$(sed -nE 's/^[[:space:]]*static[[:space:]]+let[[:space:]]+version[[:space:]]*=[[:space:]]*"([^"]+)".*$/\1/p' "$VERSION_FILE")
+
+          if [ -z "$VERSION" ]; then
+            echo "Could not read provider version from $VERSION_FILE" >&2
+            exit 1
+          fi
+
+          if ! printf '%s' "$VERSION" | grep -Eq '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'; then
+            echo "Provider version '$VERSION' is not valid SemVer" >&2
+            exit 1
+          fi
+
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "Release version: $VERSION"
+
+      - name: Ensure tag does not already exist
+        run: |
+          if git rev-parse --verify --quiet "refs/tags/$RELEASE_VERSION"; then
+            echo "Tag '$RELEASE_VERSION' already exists" >&2
+            exit 1
+          fi
+
+      - name: Create tag
+        run: git tag "$RELEASE_VERSION"
+
+      - name: Push tag
+        run: git push origin "$RELEASE_VERSION"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$RELEASE_VERSION" --generate-notes --title "$RELEASE_VERSION" --target "$RELEASE_VERSION"
