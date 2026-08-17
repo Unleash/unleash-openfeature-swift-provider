@@ -1,5 +1,5 @@
 {
-  "originHash" : "6b7ed5a846714ede8e349b13fcb435daa48c5d59f473e411d1bcecb45210ed1c",
+  "originHash" : "7982d845b0ac53a3bd6c2e13646a8980165f10cb7c52994defd9fd614801bcd9",
   "pins" : [
     {
       "identity" : "swift-sdk",
@@ -24,7 +24,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Unleash/unleash-ios-sdk",
       "state" : {
-        "revision" : "0720c3b6338f0aa62c20b921dea7a456ec374c90",
+        "revision" : "b03036b40dca2793b90ce7bddbb5184b8aa7dd04",
         "version" : "2.5.0"
       }
     }
