@@ -33,8 +33,11 @@ jobs:
       - name: Resolve dependencies
         run: swift package resolve
 
+      - name: Verify resolved dependencies are pinned
+        run: git diff --exit-code Package.resolved
+
       - name: Build
-        run: swift build
+        run: swift build --disable-automatic-resolution
 
       - name: Test
-        run: swift test
+        run: swift test --disable-automatic-resolution
